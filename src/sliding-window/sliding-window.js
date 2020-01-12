@@ -42,7 +42,6 @@ const smallest_subarray_with_given_sum = function(s, arr) {
   };
   
 
-
 const longest_substring_with_k_distinct = function(str, k) {
     let windowStart = 0;
     let maxLength = 0;
@@ -69,7 +68,6 @@ const longest_substring_with_k_distinct = function(str, k) {
   
     return maxLength;
 };
-
 
 const fruits_into_baskets = function(fruits) {
 
@@ -196,7 +194,6 @@ const find_permutation = function(str, pattern) {
             charFreq[rightChar] = 0;
         charFreq[rightChar] ++;
 
-        
         if (windowEnd - windowStart + 1 > k) {
             const leftChar = str[windowStart];
             charFreq[leftChar]--;
@@ -205,22 +202,92 @@ const find_permutation = function(str, pattern) {
             windowStart++;
         }
 
-        // console.log('char', charFreq )
-        // console.log( 'pattern', patternFreq)
-        // console.log('------------')
-
-        let compareFreq = Object.keys(charFreq).every(el => {
+        let compareFreq = Object.keys(patternFreq).every(el => {
             return charFreq[el] == patternFreq[el];
         })
-        
         if (compareFreq) {
             return true;
         }
-        
     }
 
     return false;
 };
 
+const find_string_anagrams = function(str, pattern) {
+    let results = [];
+
+    let windowStart = 0;
+    let k = pattern.length;
+    let charFreq = {};
+    let patternFreq = {};
+
+    [...pattern].forEach(el => {
+        if (!(el in patternFreq))
+            patternFreq[el] = 0;
+        patternFreq[el] ++;
+    })
+
+    for (let windowEnd = 0; windowEnd < str.length; windowEnd ++) {
+        const rightChar = str[windowEnd];
+        if (!(rightChar in charFreq))
+            charFreq[rightChar] = 0;
+        charFreq[rightChar] ++;
+
+        if (windowEnd - windowStart + 1 > k) {
+            const leftChar = str[windowStart];
+            charFreq[leftChar]--;
+            if (charFreq[leftChar] === 0)
+                delete charFreq[leftChar]
+            windowStart++;
+        }
+
+        let compareFreq = Object.keys(patternFreq).every(el => {
+            return charFreq[el] == patternFreq[el];
+        })
+        if (compareFreq) {
+            results.push(windowStart);
+        }
+    }
+
+    return results;
+};
 
 
+const find_substring = function(str, pattern) {
+    let minStr = '';
+    let windowStart = 0;
+
+    let charFreq = {};
+    let patternFreq = {};
+
+    [...pattern].forEach(el => {
+        if (!(el in patternFreq))
+            patternFreq[el] = 0;
+        patternFreq[el] ++;
+    })
+
+    for (let windowEnd = 0; windowEnd < str.length; windowEnd ++) {
+        const rightChar = str[windowEnd];
+        if (!(rightChar in charFreq))
+            charFreq[rightChar] = 0;
+        charFreq[rightChar] ++;
+ 
+        while (Object.keys(patternFreq).every( el => {
+            return charFreq[el] >= patternFreq[el];
+        })) {
+
+            const newStr = str.slice(windowStart, windowEnd + 1);
+            minStr = newStr.length < minStr.length ? newStr : minStr;
+            if (minStr === '') minStr = newStr;
+            
+            const leftChar = str[windowStart];
+            charFreq[leftChar] --;
+            windowStart++;
+        }
+    }
+
+    return minStr;
+};
+console.log(find_substring('aabdec', 'abc'))
+console.log(find_substring('abdabca', 'abc'))
+console.log(find_substring('adcad', 'abc'))
