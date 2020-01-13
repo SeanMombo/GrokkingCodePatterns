@@ -79,16 +79,13 @@ const search_triplets = function(arr) {
         let left = i + 1;
         let right = k - 1;
 
-        let t1 = arr[i], t2 = arr[left], t3 = arr[right];
-        let tsum = arr[i] + arr[left] + arr[right];
-
         while(left < right) {
             if (arr[i] + arr[left] + arr[right] === 0) {
                 triplets.push([arr[i], arr[left], arr[right]]);
                 left++;
                 right--;
             } else if (arr[i] + arr[left] + arr[right] < 0) {
-                left++;
+                left ++;
             } else {
                 right --;
             }
@@ -98,5 +95,39 @@ const search_triplets = function(arr) {
     return triplets;
 };
 
-console.log(search_triplets([-3, 0, 1, 2, -1, 1, -2]));
-console.log(search_triplets([-5, 2, -1, -2, 3]));
+// console.log(search_triplets([-3, 0, 1, 2, -1, 1, -2]));
+// console.log(search_triplets([-5, 2, -1, -2, 3]));
+
+
+
+const triplet_sum_close_to_target = function(arr, target) {
+    let minSum = Infinity;
+    arr = arr.sort((a,b) => a - b);
+    let k = arr.length;
+
+    for (let i = 0; i < k; i ++) {
+        let left = i + 1;
+        let right = k - 1;
+        //arr[i] + arr[left] + arr[right]
+        while(left < right) {
+            let t1 = arr[i], t2 = arr[left], t3 = arr[right]
+            let tsum = t1+t2+t3;
+
+            if (tsum === target) {
+                left++;
+                right--;
+            } else if (tsum < target) {
+                left ++;
+            } else {
+                right --;
+            }
+            minSum = Math.abs(target-tsum) < Math.abs(target-minSum) ? tsum : minSum;
+        }
+    }
+    return minSum;
+};
+  
+
+// console.log(triplet_sum_close_to_target([-2, 0, 1, 2], 2));
+// console.log(triplet_sum_close_to_target([-3, -1, 1, 2], 1));
+// console.log(triplet_sum_close_to_target([1, 0, 1, 1], 100));
