@@ -186,3 +186,158 @@ const find_subarrays = function(arr, target) {
 };
 
 // console.log(find_subarrays([2, 5, 3, 10], 30));
+
+const dutch_flag_sort = function(arr) {
+    let k = arr.length;
+    let low = 0;
+    let high = k - 1;
+
+    let i = 0;
+
+    while (i <= high) {
+        if (arr[i] === 0) {
+            [arr[i], arr[low]] = [arr[low], arr[i]];
+            i++;
+            low++;
+        } else if (arr[i] === 2) {
+            [arr[i], arr[high]] = [arr[high], arr[i]];
+            high--;
+        } else {
+            i++;
+        }
+    }
+    return arr;
+};
+
+// let arr = [1, 0, 2, 1, 0];
+// dutch_flag_sort(arr);
+// console.log(arr);
+
+// arr = [2, 2, 0, 1, 2, 0];
+// dutch_flag_sort(arr);
+// console.log(arr);
+
+
+
+const search_quadruplets = function(arr, target) {
+    quadruplets = [];
+    
+    arr.sort((a,b) => a - b);
+    let k = arr.length;
+    
+    for(i = 0; i < k-3; i ++) {
+        for(j = i+1; j < k-2; j ++) {
+
+            let left = j + 1;
+            let right = k - 1;
+
+            while (left < right) {
+                let t1=arr[i], t2=arr[j], t3=arr[left], t4=arr[right];
+
+                let sum = t1+t2+t3+t4;  
+                
+                if (sum === target) {
+                    quadruplets.push([t1,t2,t3,t4]);
+                    left++;
+                    right--;
+                } else if (sum < target) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+    }
+
+    return quadruplets;
+};
+
+// console.log(search_quadruplets([4, 1, 2, -1, 1, -3], 1));
+// // Input: [4, 1, 2, -1, 1, -3], target=1
+// // Output: [-3, -1, 1, 4], [-3, 1, 1, 2]
+// // Explanation: Both the quadruplets add up to the target.
+
+const backspace_compare = function(str1, str2) {
+    
+    let index1 = str1.length - 1;
+    let index2 = str2.length - 1;
+    
+    while (index1 >= 0 || index2 >= 0) {
+        let i1 = getIndex(str1, index1);
+        let i2 = getIndex(str2, index2);
+       
+        if (i1 < 0 && i2 < 0) return true;
+        if (i1 < 0 || i2 < 0) return false;
+        if (str1[i1] !== str2[i2]) return false;
+
+        index1 = i1 - 1;
+        index2 = i2 - 1;
+    }
+
+    return true;
+};
+
+const getIndex = (str, i) => {
+    let numOffset = 0;
+    while (i >= 0) {
+        if (str[i] === '#') numOffset++;
+        else if (numOffset > 0) numOffset --;
+        else break;
+        console.log(numOffset, str)
+        i--;
+    }
+    return i;
+}
+
+let x = ['xy#z', 'xzz#'];
+
+//str1="xy#z", str2="xzz#"
+
+//console.log(backspace_compare('xy#z', 'xzz#'));
+//console.log(backspace_compare('xy#z', 'xyz#'));
+//console.log(backspace_compare('xp#', 'xyz##'));
+//console.log(backspace_compare('xywrrmp', 'xywrrmu#p'));
+
+
+const shortest_window_sort = function(arr) {
+    let k = arr.length;
+    let left = 0;
+    let right = k - 1;
+
+    for(i = 0; i < k; i ++) {
+        left = i + 1;
+
+        while (arr[i] < arr[left] && left < k) {
+            left ++;
+        } 
+        if (left === k) {
+            continue;
+        }
+        else {
+            left --;
+            break;
+        } 
+    }
+
+    for(i = k; i >= 0; i --) {
+        right = i - 1;
+
+        while (arr[i] > arr[right] && right >= 0) {
+            right --;
+        } 
+        if (right === k) {
+            continue;
+        }
+        else {
+            right--;
+            break;
+        } 
+    }
+
+    return [left, right, right-left+1]
+};
+
+// Input = [1, 3, 2, 0, -1, 7, 10]
+// Output = 5;
+// console.log(shortest_window_sort(Input));
+console.log(shortest_window_sort([1, 3, 2, 0, -1, 7, 10]));
