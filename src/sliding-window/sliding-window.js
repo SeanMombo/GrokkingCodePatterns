@@ -279,7 +279,7 @@ const find_substring = function(str, pattern) {
             const newStr = str.slice(windowStart, windowEnd + 1);
             minStr = newStr.length < minStr.length ? newStr : minStr;
             if (minStr === '') minStr = newStr;
-            
+
             const leftChar = str[windowStart];
             charFreq[leftChar] --;
             windowStart++;
@@ -288,6 +288,10 @@ const find_substring = function(str, pattern) {
 
     return minStr;
 };
-console.log(find_substring('aabdec', 'abc'))
-console.log(find_substring('abdabca', 'abc'))
-console.log(find_substring('adcad', 'abc'))
+
+
+const find_word_concatenation = function(str, words) {
+    result_indices = [];
+    
+    return result_indices;
+};
