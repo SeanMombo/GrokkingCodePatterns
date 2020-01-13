@@ -1,3 +1,5 @@
+
+
 const pair_with_target_sum = function(arr, target_sum) {
     let p1 = 0, p2 = arr.length-1;
 
@@ -99,7 +101,6 @@ const search_triplets = function(arr) {
 // console.log(search_triplets([-5, 2, -1, -2, 3]));
 
 
-
 const triplet_sum_close_to_target = function(arr, target) {
     let minSum = Infinity;
     arr = arr.sort((a,b) => a - b);
@@ -108,7 +109,7 @@ const triplet_sum_close_to_target = function(arr, target) {
     for (let i = 0; i < k; i ++) {
         let left = i + 1;
         let right = k - 1;
-        //arr[i] + arr[left] + arr[right]
+
         while(left < right) {
             let t1 = arr[i], t2 = arr[left], t3 = arr[right]
             let tsum = t1+t2+t3;
@@ -126,8 +127,62 @@ const triplet_sum_close_to_target = function(arr, target) {
     }
     return minSum;
 };
-  
-
 // console.log(triplet_sum_close_to_target([-2, 0, 1, 2], 2));
 // console.log(triplet_sum_close_to_target([-3, -1, 1, 2], 1));
 // console.log(triplet_sum_close_to_target([1, 0, 1, 1], 100));
+
+
+const triplet_with_smaller_sum = function(arr, target) {
+    count = 0;
+    arr = arr.sort((a,b) => a - b);
+    let k = arr.length;
+    
+    for (let i = 0; i < k; i ++) {
+        let left = i + 1;
+        let right = k - 1;
+
+        while(left < right) {
+            let t1 = arr[i], t2 = arr[left], t3 = arr[right]
+            let tsum = t1+t2+t3;
+            if (tsum >= target) {
+                right--;
+            } else if (tsum < target) {
+                count += right-left;
+                left++;
+            }
+        }
+    }
+    return count;
+};
+
+// console.log(triplet_with_smaller_sum([-1, 0, 2, 3], 3));
+// console.log(triplet_with_smaller_sum([-1, 4, 2, 1, 3], 5));
+
+
+const find_subarrays = function(arr, target) {
+
+    result = [];
+    let k = arr.length;
+    let product = 1;
+    let left = 0;
+    for(right = 0; right < k; right ++) {
+        product *= arr[right];
+        //if product >= target
+        while (product >= target && left < k) {
+            product /= arr[left];
+            left ++;
+        }
+
+        //if product < target
+        let temp = new Array();
+
+        for(let n = right; n > left - 1; n --) {
+
+            temp.unshift(arr[n]);
+            result.push(temp);
+        }
+    }
+    return result;
+};
+
+// console.log(find_subarrays([2, 5, 3, 10], 30));
