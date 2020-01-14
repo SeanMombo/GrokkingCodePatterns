@@ -7,6 +7,10 @@ class Interval {
     get_interval() {
         return "[" + this.start + ", " + this.end + "]";
     }
+
+    print_interval() {
+        process.stdout.write(`[${this.start}, ${this.end}]`);
+      }
 }
   
   
@@ -41,40 +45,130 @@ const merge = function(intervals) {
 const insert = function(intervals, new_interval) {
     merged = [];
     
-    let start;
-    let end;
+    let i = 0;
 
-    let newStart = new_interval.start;
-    let newEnd = new_interval.end;
-
-    for(let i = 0; i < intervals.length; i ++) {
-        let interval = intervals[i];
-        
-    
-        if (newStart <= end) {
-            end = interval.end;
-        }
-
-        start = interval.start;
+    //skip and add all intervals that end before new_interval starts
+    while (i < intervals.length && intervals[i].end < new_interval.start) {
+        merged.push(intervals[i]);
+        i += 1;
     }
 
+    //merge all intervals that overlap with new_interval
+    while(i < intervals.length && intervals[i].start <= new_interval.end) {
+        new_interval.start = Math.min(intervals[i].start, new_interval.start);
+        new_interval.end = Math.max(intervals[i].end, new_interval.end);
+        i += 1;
+    }
+
+    merged.push(new_interval);
+
+    //add whatever is left
+    while(i < intervals.length) {
+        merged.push(intervals[i])
+        i += 1;
+    }
     return merged;
 };
 
-intervals = insert([[1, 3], [5, 7], [8, 12]], [4, 6]);
-result = "";
-for(i=0; i < intervals.length; i++)
-result += "[" + intervals[i][0] + ", " + intervals[i][1] + "] ";
-console.log("Intervals after inserting the new interval: " + result);
 
-intervals = insert([[1, 3], [5, 7], [8, 12]], [4, 10]);
-result = "";
-for(i=0; i < intervals.length; i++)
-result += "[" + intervals[i][0] + ", " + intervals[i][1] + "] ";
-console.log("Intervals after inserting the new interval: " + result);
+const intersection = function(intervals_a, intervals_b) {
+    let result = [];
+    let i = 0, j = 0;
+    
+    //while both variables are still within bounds
+    while (i < intervals_a.length && j < intervals_b.length) {
+        //if the start value of intervalA is within intervalB
+        let aOverlapsB = intervals_a[i].start >= intervals_b[j].start && intervals_a[i].start <= intervals_b[j].end;
+        let bOverlapsA = intervals_b[j].start >= intervals_a[i].start && intervals_b[j].start <= intervals_a[i].end;
 
-intervals = insert([[2, 3], [5, 7]], [1, 4]);
-result = "";
-for(i=0; i < intervals.length; i++)
-result += "[" + intervals[i][0] + ", " + intervals[i][1] + "] ";
-console.log("Intervals after inserting the new interval: " + result);
+        if (aOverlapsB || bOverlapsA) {
+            let newStart = Math.max(intervals_a[i].start, intervals_b[j].start);
+            let newEnd = Math.min(intervals_a[i].end, intervals_b[j].end);
+            result.push(new Interval(newStart, newEnd));   
+        }
+
+        if (intervals_a[i].end < intervals_b[j].end) {
+            i++;
+        } else {
+            j++;
+        }
+    }
+    return result;
+};
+  
+
+
+const can_attend_all_appointments = function(intervals) {
+    intervals.sort((a,b) => a.start - b.start);
+    let i = 1;
+    let end = intervals[0].end;
+
+    while(i < intervals.length) {
+        if (intervals[i].start < end ) {
+            return false;
+        }
+        end = intervals[i].end;
+        i ++; 
+    }
+    return true;
+};
+// my alt solution
+// const can_attend_all_appointments = function(intervals) {
+//     intervals.sort((a,b) => a.start - b.start);
+//     let i = 1;
+    
+//     for(let i = 0; i < intervals.length; i ++) {
+//         let end = intervals[i].end;
+//         let j = i + 1;
+
+//         while(j < intervals.length) {
+//             if (end > intervals[j].start) {
+//                 return false;
+//             }
+//             j ++;  
+//         }
+//     }
+//     return true;
+// };
+
+
+class Meeting {
+    constructor(start, end) {
+        this.start = start;
+        this.end = end;
+    }
+};
+
+function min_meeting_rooms(meetings) {
+    // sort the meetings by start time
+    meetings.sort((a, b) => a.start - b.start);
+
+    let minRooms = 0,
+        minHeap = new Heap([], null, ((a, b) => b.end - a.end));
+    for (i = 0; i < meetings.length; i++) {
+        // remove all the meetings that have ended
+        while (minHeap.length > 0 && meetings[i].start >= minHeap.peek().end) {
+            minHeap.pop();
+        }
+        // add the current meeting into min_heap
+        minHeap.push(meetings[i]);
+        // all active meetings are in the min_heap, so we need rooms for all of them.
+        minRooms = Math.max(minRooms, minHeap.length);
+    }
+    return minRooms;
+}
+
+
+// console.log(`Minimum meeting rooms required: ` +
+//   `${min_meeting_rooms([new Meeting(4, 5), new Meeting(2, 3), new Meeting(2, 4), new Meeting(3, 5)])}`);
+// console.log(`Minimum meeting rooms required: ` +
+//   `${min_meeting_rooms([new Meeting(1, 4), new Meeting(2, 5), new Meeting(7, 9)])}`);
+// console.log(`Minimum meeting rooms required: ` +
+//   `${min_meeting_rooms([new Meeting(6, 7), new Meeting(2, 4), new Meeting(8, 12)])}`);
+// console.log(`Minimum meeting rooms required: ` +
+//   `${min_meeting_rooms([new Meeting(1, 4), new Meeting(2, 3), new Meeting(3, 6)])}`);
+// console.log(`Minimum meeting rooms required: ` +
+//   `${min_meeting_rooms([new Meeting(4, 5), new Meeting(2, 3), new Meeting(2, 4), new Meeting(3, 5)])}`);
+
+
+
