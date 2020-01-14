@@ -158,17 +158,46 @@ function min_meeting_rooms(meetings) {
     return minRooms;
 }
 
+class Job {
+    constructor(start, end, cpu_load) {
+        this.start = start;
+        this.end = end;
+        this.cpu_load = cpu_load;
+    }
+};
 
-// console.log(`Minimum meeting rooms required: ` +
-//   `${min_meeting_rooms([new Meeting(4, 5), new Meeting(2, 3), new Meeting(2, 4), new Meeting(3, 5)])}`);
-// console.log(`Minimum meeting rooms required: ` +
-//   `${min_meeting_rooms([new Meeting(1, 4), new Meeting(2, 5), new Meeting(7, 9)])}`);
-// console.log(`Minimum meeting rooms required: ` +
-//   `${min_meeting_rooms([new Meeting(6, 7), new Meeting(2, 4), new Meeting(8, 12)])}`);
-// console.log(`Minimum meeting rooms required: ` +
-//   `${min_meeting_rooms([new Meeting(1, 4), new Meeting(2, 3), new Meeting(3, 6)])}`);
-// console.log(`Minimum meeting rooms required: ` +
-//   `${min_meeting_rooms([new Meeting(4, 5), new Meeting(2, 3), new Meeting(2, 4), new Meeting(3, 5)])}`);
+const find_max_cpu_load = function(jobs) {
+    jobs.sort((a,b) => a.start - b.start);
+    let overlap = [];
 
+    if (jobs[1].start < jobs[0].end) {
+        overlap.push(jobs[0]);
+    }
 
+    for(let i = 1; i < jobs.length; i++) {
+        if (jobs[i].start < jobs[i-1].end) {
+            overlap.push(jobs[i]);
+        }
+    }
+    if (overlap.length === 0) {
+        const l = jobs.reduce((prevMax, el) => {
+            return el.cpu_load > prevMax ? el.cpu_load : prevMax;
+        }, 0);
+        return l
+    } else {
+        // console.log(overlap)
+        let sum = 0;
+        for(j in overlap) {
+            sum+=overlap[j].cpu_load;
+        }
+        return sum;
+    }
+};
+
+// console.log(`Maximum CPU load at any time: ${find_max_cpu_load(
+// [new Job(1, 4, 3), new Job(2, 5, 4), new Job(7, 9, 6)])}`)
+// console.log(`Maximum CPU load at any time: ${find_max_cpu_load(
+// [new Job(6, 7, 10), new Job(2, 4, 11), new Job(8, 12, 15)])}`)
+// console.log(`"Maximum CPU load at any time: ${find_max_cpu_load(
+// [new Job(1, 4, 2), new Job(2, 4, 1), new Job(3, 6, 5)])}`)
 
