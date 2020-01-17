@@ -145,6 +145,7 @@ function min_meeting_rooms(meetings) {
 
     let minRooms = 0,
         minHeap = new Heap([], null, ((a, b) => b.end - a.end));
+        
     for (i = 0; i < meetings.length; i++) {
         // remove all the meetings that have ended
         while (minHeap.length > 0 && meetings[i].start >= minHeap.peek().end) {
@@ -201,3 +202,36 @@ const find_max_cpu_load = function(jobs) {
 // console.log(`"Maximum CPU load at any time: ${find_max_cpu_load(
 // [new Job(1, 4, 2), new Job(2, 4, 1), new Job(3, 6, 5)])}`)
 
+
+const find_employee_free_time = function(schedule) {
+    result = [];
+
+    return result;
+};
+
+
+
+
+
+input = [[new Interval(1, 3), new Interval(5, 6)], [
+new Interval(2, 3), new Interval(6, 8)]];
+intervals = find_employee_free_time(input)
+result = "Free intervals: ";
+for(i=0; i < intervals.length; i++)
+result += intervals[i].get_interval();
+console.log(result);
+
+
+input = [[new Interval(1, 3), new Interval(9, 12)], [
+new Interval(2, 4)], [new Interval(6, 8)]];
+result = "Free intervals: ";
+for(i=0; i < intervals.length; i++)
+result += intervals[i].get_interval();
+console.log(result);
+
+input = [[new Interval(1, 3)], [
+new Interval(2, 4)], [new Interval(3, 5), new Interval(7, 9)]];
+result = "Free intervals: ";
+for(i=0; i < intervals.length; i++)
+result += intervals[i].get_interval();
+console.log(result);

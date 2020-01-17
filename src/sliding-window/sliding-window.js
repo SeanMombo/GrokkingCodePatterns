@@ -101,7 +101,7 @@ const fruits_into_baskets = function(fruits) {
 const non_repeat_substring = function(str) {
     let windowStart = 0;
     let charFreq = {};
-    let maxLength = 0;
+let maxLength = 0;
 
     for (let windowEnd = 0; windowEnd < str.length; windowEnd ++) {
         const rightChar = str[windowEnd];

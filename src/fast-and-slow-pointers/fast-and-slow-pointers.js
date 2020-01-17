@@ -24,24 +24,24 @@ const has_cycle = function(head) {
         slow = slow.next;
     
         if (fast === null || fast.next === null) return false;
-        if (slow.value === slow.value) return true;
+        if (fast.value === slow.value) return true;
     }  
 }
   
   
-//   head = new Node(1)
-//   head.next = new Node(2)
-//   head.next.next = new Node(3)
-//   head.next.next.next = new Node(4)
-//   head.next.next.next.next = new Node(5)
-//   head.next.next.next.next.next = new Node(6)
-//   console.log(`LinkedList has cycle: ${has_cycle(head)}`)
+  head = new Node(1)
+  head.next = new Node(2)
+  head.next.next = new Node(3)
+  head.next.next.next = new Node(4)
+  head.next.next.next.next = new Node(5)
+  head.next.next.next.next.next = new Node(6)
+  console.log(`LinkedList has cycle: ${has_cycle(head)}`)
   
-//   head.next.next.next.next.next.next = head.next.next
-//   console.log(`LinkedList has cycle: ${has_cycle(head)}`)
+  head.next.next.next.next.next.next = head.next.next
+  console.log(`LinkedList has cycle: ${has_cycle(head)}`)
   
-//   head.next.next.next.next.next.next = head.next.next.next
-//   console.log(`LinkedList has cycle: ${has_cycle(head)}`)
+  head.next.next.next.next.next.next = head.next.next.next
+  console.log(`LinkedList has cycle: ${has_cycle(head)}`)
   
 
 const find_cycle_start = function(head){
@@ -238,13 +238,12 @@ function reverse(head) {
     return prev;
 }
   
-head = new Node(2)
-head.next = new Node(4)
-head.next.next = new Node(6)
-head.next.next.next = new Node(8)
-head.next.next.next.next = new Node(10)
-head.next.next.next.next.next = new Node(12)
-reorder(head)
-head.print_list()
-
+// head = new Node(2)
+// head.next = new Node(4)
+// head.next.next = new Node(6)
+// head.next.next.next = new Node(8)
+// head.next.next.next.next = new Node(10)
+// head.next.next.next.next.next = new Node(12)
+// reorder(head)
+// head.print_list()
 
