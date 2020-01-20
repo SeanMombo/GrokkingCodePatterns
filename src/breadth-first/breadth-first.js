@@ -27,17 +27,11 @@ class TreeNode {
         for(i = 0; i < levelSize; i ++) {
             let currentNode = q.shift();
             currentLevel.push(currentNode.value);
-
-            if (currentNode.left !== null) {
-                q.push(currentNode.left);
-            }
-            if (currentNode.right !== null) {
-                q.push(currentNode.right);
-            }
+            if (currentNode.left) q.push(currentNode.left);
+            if (currentNode.right) q.push(currentNode.right);
         }
         result.unshift(currentLevel)
     }
-
     return result;
   };
   
