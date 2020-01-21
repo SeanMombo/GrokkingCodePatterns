@@ -53,10 +53,23 @@ const find_sum_of_path_numbers = function(root) {
 };
 
 
+// const root = new TreeNode(1);
+// root.left = new TreeNode(0);
+// root.right = new TreeNode(1);
+// root.left.left = new TreeNode(1);
+// root.right.left = new TreeNode(6);
+// root.right.right = new TreeNode(5);
+// console.log(`Total Sum of Path Numbers: ${find_sum_of_path_numbers(root)}`);
+
+
+const delete_node = function(root, ) {
+    
+}
+
 const root = new TreeNode(1);
 root.left = new TreeNode(0);
 root.right = new TreeNode(1);
 root.left.left = new TreeNode(1);
 root.right.left = new TreeNode(6);
 root.right.right = new TreeNode(5);
-console.log(`Total Sum of Path Numbers: ${find_sum_of_path_numbers(root)}`);
+console.log(`Total Sum of Path Numbers: ${delete_node(root)}`);
