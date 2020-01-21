@@ -29,12 +29,34 @@ var find_paths = function(root, sum) {
 };
 
 
-const root = new TreeNode(12);
-root.left = new TreeNode(7);
+// const root = new TreeNode(12);
+// root.left = new TreeNode(7);
+// root.right = new TreeNode(1);
+// root.left.left = new TreeNode(4);
+// root.right.left = new TreeNode(10);
+// root.right.right = new TreeNode(5);
+// let sum = 23,
+//   result = find_paths(root, sum);
+// console.log(result)
+
+
+const find_sum_of_path_numbers = function(root) {
+    function dfs(root, num) {
+        if (!root) return 0;
+        num = 10 * num + root.val;
+        if (!root.left && !root.right) {
+            return num;
+        }
+        return dfs(root.left, num) + dfs(root.right, num);
+    }
+    return dfs(root, 0);
+};
+
+
+const root = new TreeNode(1);
+root.left = new TreeNode(0);
 root.right = new TreeNode(1);
-root.left.left = new TreeNode(4);
-root.right.left = new TreeNode(10);
+root.left.left = new TreeNode(1);
+root.right.left = new TreeNode(6);
 root.right.right = new TreeNode(5);
-let sum = 23,
-  result = find_paths(root, sum);
-console.log(result)
+console.log(`Total Sum of Path Numbers: ${find_sum_of_path_numbers(root)}`);
