@@ -14,7 +14,7 @@ const search_next_letter = function(letters, key) {
       let mid = Math.floor(l + (r-l)/2);
       let guess = letters[mid];
   
-      if (guess > key) {
+      if (key < guess) {
         r = mid - 1;
       } else {
         l = mid + 1;
