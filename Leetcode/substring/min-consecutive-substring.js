@@ -4,36 +4,33 @@
 // ABC -> 3
 // ABBCABC -> 3 bc of ABC in the end
 
+let Deque = require('collections/deque');
+
 const smallest_consecutive_substring = (str) => {
 
-    let a = [],
-        b = [],
-        c = [];
+    let a = new Deque(),
+        b = new Deque(),
+        c = new Deque();
     let minLen = Infinity;
 
     for(let i = 0; i < str.length; i ++) {
         let char = str[i];
-        if (char==='A') a.unshift(i);
-        else if (char==='B') b.unshift(i);
-        else if (char==='C') c.unshift(i);
-
-        if (a.length > 0 && b.length > 0 && c.length > 0) {
-            
-            if (a[a.length-1] < b[b.length-1] && b[b.length-1] < c[c.length-1]) {
-
-                minLen = Math.min(minLen, c[c.length-1] - a[a.length-1]);
-                a.pop();
-            }
-        }
-
-        while (a[a.length-1] > b[b.length-1]) {
-            b.pop();
-        }
-        while (b[b.length-1] > c[c.length-1]) {
-            c.pop();
-        }
+        if (char==='A') a.push(i);
+        else if (char==='B') b.push(i);
+        else if (char==='C') c.push(i);
     }
-    return minLen === Infinity ? null : minLen + 1;
+
+    for(let i = 0; i < str.length; i ++) {
+        if (a.peekBack() < b.peekBack() && b.peekBack() < c.peekBack()) {
+            minLen = Math.min(minLen, (c.peekBack() - a.peekBack()) + 1);
+        }
+
+        if (str[i]=='C') a.pop();
+        else if (str[i]=='B') b.pop();
+        else if (str[i]=='A') c.pop();
+    }
+   
+    return minLen === Infinity ? null : minLen;
 }
 
 
