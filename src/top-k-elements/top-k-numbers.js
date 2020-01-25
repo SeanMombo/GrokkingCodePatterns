@@ -1,6 +1,5 @@
+
 const Heap = require('collections/heap'); //http://www.collectionsjs.com
-
-
 
 function find_k_largest_numbers(nums, k) {
     const minHeap = new Heap([], null, ((a,b) => b - a));
