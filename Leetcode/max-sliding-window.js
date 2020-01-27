@@ -23,35 +23,34 @@
 
 
 //// This solution is O(N * logK) time
-// let Heap = require('collections/heap');
-
-// var maxSlidingWindow = function(nums, k) {
-//     const maxHeap = new Heap();
-//     const results = [];
-//     for(i = 0; i < k; i ++) {
-//         maxHeap.push(nums[i]);
-//     }
-//     results.push(maxHeap.peek());
-
-//     let l = 0;
-
-//     for(i = k; i < nums.length; i ++) {
-//         maxHeap.delete(nums[l++]);
-//         maxHeap.push(nums[i]);
-//         results.push(maxHeap.peek());
-//     }
-
-//     return results;
-// }
-
+let Heap = require('collections/heap');
 
 var maxSlidingWindow = function(nums, k) {
+    const maxHeap = new Heap();
+    const results = [];
+    for(i = 0; i < k; i ++) {
+        maxHeap.push(nums[i]);
+    }
+    results.push(maxHeap.peek());
+
+    let l = 0;
+
+    for(i = k; i < nums.length; i ++) {
+        maxHeap.delete(nums[l++]);
+        maxHeap.push(nums[i]);
+        results.push(maxHeap.peek());
+    }
+
+    return results;
+}
+
+
+var maxSlidingWindow2 = function(nums, k) {
     let res=[];
     if(!nums.length) return res;
     let deque=[];
 
     nums.forEach((n, i) => {
-        console.log(deque, n)
         while(deque.length != 0 && deque[deque.length - 1] < n) {
             deque.pop();
         }
@@ -69,7 +68,7 @@ var maxSlidingWindow = function(nums, k) {
 
 
 console.log(maxSlidingWindow([1,3,-1,-3,5,3,6,7], k = 3));
-
+console.log(maxSlidingWindow2([1,3,-1,-3,5,3,6,7], k = 3));
 // [1,3,-1,-3,5,3,6,7]
 
 // [1]
