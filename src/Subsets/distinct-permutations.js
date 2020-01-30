@@ -30,3 +30,5 @@ const permutations = (arr) => {
 }
 
 console.log(permutations([1,3,5]));
+
+
