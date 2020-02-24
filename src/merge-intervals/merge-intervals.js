@@ -18,6 +18,7 @@ const merge = function(intervals) {
     if (intervals.length < 2) {
         return intervals;
       }
+      
     const merged = []
     intervals.sort((a,b) => a.start - b.start);
 
