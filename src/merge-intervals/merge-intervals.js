@@ -18,7 +18,7 @@ const merge = function(intervals) {
     if (intervals.length < 2) {
         return intervals;
       }
-      
+
     const merged = []
     intervals.sort((a,b) => a.start - b.start);
 
@@ -209,8 +209,6 @@ const find_employee_free_time = function(schedule) {
 
     return result;
 };
-
-
 
 
 
