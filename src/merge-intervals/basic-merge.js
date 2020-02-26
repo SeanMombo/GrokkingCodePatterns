@@ -14,7 +14,7 @@ class Interval {
 }
 
 
-const merge = (arr) => {
+const mergeOld = (arr) => {
     if (arr.length < 2) return arr;
 
     //create array for merged intervals
@@ -44,6 +44,32 @@ const merge = (arr) => {
     return merged;
 }
 
+
+const merge = function(arr) {
+    const results = [];
+    arr.sort((a,b) => a.start - b.start);
+    
+    let prevEnd = arr[0].end;
+    let prevStart = arr[0].start;
+
+    let i = 1;
+    while(i < arr.length) {
+        if (arr[i].start <= prevEnd) {
+            prevEnd = Math.max(prevEnd, arr[i].end)
+        } else {
+            results.push(new Interval(prevStart, prevEnd));
+            prevStart = arr[i].start;
+            prevEnd = arr[i].end;
+        }
+        i++;
+    }
+    results.push(new Interval(prevStart, prevEnd));
+    return results;
+}
+
 const arr = [new Interval(1,4), new Interval(2,6), new Interval(7, 9), new Interval(10, 11)];
 
 console.log(merge(arr));
+
+
+
