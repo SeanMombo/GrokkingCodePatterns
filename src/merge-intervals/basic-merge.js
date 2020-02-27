@@ -45,31 +45,31 @@ const mergeOld = (arr) => {
 }
 
 
-const merge = function(arr) {
+var merge = function(intervals) {
+    intervals.sort((a,b) => a[0] - b[0]);
     const results = [];
-    arr.sort((a,b) => a.start - b.start);
     
-    let prevEnd = arr[0].end;
-    let prevStart = arr[0].start;
-
-    let i = 1;
-    while(i < arr.length) {
-        if (arr[i].start <= prevEnd) {
-            prevEnd = Math.max(prevEnd, arr[i].end)
+    let prevStart = intervals[0][0];
+    let prevEnd = intervals[0][1];
+    
+    for(let i = 1; i < intervals.length; i ++) {
+        
+        if (intervals[i][0] <= prevEnd) {
+            prevEnd = Math.max(intervals[i][1], prevEnd);
         } else {
-            results.push(new Interval(prevStart, prevEnd));
-            prevStart = arr[i].start;
-            prevEnd = arr[i].end;
+            results.push([prevStart, prevEnd]);
+            prevStart = intervals[i][0];
+            prevEnd = intervals[i][1];
         }
-        i++;
+
     }
-    results.push(new Interval(prevStart, prevEnd));
+    results.push([prevStart, prevEnd]);
     return results;
-}
+};
+//[[1,3],[2,6],[8,10],[15,18]]
+const arr = [new Interval(1,3), new Interval(2,6), new Interval(8, 10), new Interval(15, 18)];
 
-const arr = [new Interval(1,4), new Interval(2,6), new Interval(7, 9), new Interval(10, 11)];
-
-console.log(merge(arr));
+console.log(merge([[1,3],[2,6],[8,10],[15,18]]));
 
 
 
