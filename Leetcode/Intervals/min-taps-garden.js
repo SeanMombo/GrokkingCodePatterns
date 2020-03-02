@@ -31,7 +31,7 @@ var minTaps = function(n, ranges) {
     const res = [];
     res.push(intervals[0]);
     for (i = 1; i < n + 1; i ++) {
-        if (intervals[i-1])
+        if (intervals[i-1]){}
     }
 };
 
