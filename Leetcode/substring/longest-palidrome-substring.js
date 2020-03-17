@@ -1,12 +1,7 @@
-/**
- * @param {string} s
- * @return {string}
- */
 var longestPalindrome = function(s) {
     const n = s.length;
     const dp = new Array(n).fill(0).map(() => new Array(n).fill(0));
-    let maxLen = 1;
-    let start = 0;
+    let res = "";
     
     let num = 0;
     while (num < n) {
@@ -15,22 +10,19 @@ var longestPalindrome = function(s) {
         while(j < n) {
             if (i === j) {
                 dp[i][j] = 1;
-            } else if (s[i] === s[j] && dp[i+1][j-1]) {
+            } else if (s[i] === s[j]) {
                 dp[i][j] = dp[i+1][j-1];
-                if (j-i + 1 > maxLen) {
-                    maxLen = j-i+1;
-                    start = i;
-                    console.log(dp)
-                }
             }
+            
+            if (dp[i][j] && j-i + 1 > res.length) {
+                res = s.substring(i, j+1)
+            }      
             i++;
             j++;
         }
         num++;
     }
     
-    return s.substring(start, start + maxLen)
+    return res;
 };
-
-
-console.log(longestPalindrome("abcda"))
+console.log(longestPalindrome("babad"))
