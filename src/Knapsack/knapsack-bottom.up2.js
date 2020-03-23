@@ -56,8 +56,8 @@ function canPartition(nums) {
             dp[i][s] = dp[i-1][s] || (s >= nums[i] && dp[i-1][s-nums[i]]);
         }
     }
-    console.log(dp)
-    console.log(sum)
+    // console.log(dp)
+    // console.log(sum)
     let sum1 = 0;
     for(let s = requiredSum; s >= 0; s--) {
         if (dp[n-1][s] === true) {
@@ -71,6 +71,6 @@ function canPartition(nums) {
 }
 
 
-// console.log(`Minimum subset difference is: ---> ${canPartition([1, 2, 3, 9])}`);
+console.log(`Minimum subset difference is: ---> ${canPartition([1, 2, 3, 9])}`);
 console.log(`Minimum subset difference is: ---> ${canPartition([1, 2, 7, 1, 5])}`);
-// console.log(`Minimum subset difference is: ---> ${canPartition([1, 3, 100, 4])}`);
+console.log(`Minimum subset difference is: ---> ${canPartition([1, 3, 100, 4])}`);
