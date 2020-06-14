@@ -5,9 +5,10 @@ var longestPalindrome = function(s) {
     
     let num = 0;
     while (num < n) {
-        let i = 0, j = num;
+        let i = 0, j = num; //travel the grid diagonally down+right - every time we loop back, we start one diagonal to the right
         
         while(j < n) {
+            // console.log(dp)
             if (i === j) {
                 dp[i][j] = 1;
             } else if (s[i] === s[j]) {
@@ -25,4 +26,5 @@ var longestPalindrome = function(s) {
     
     return res;
 };
-console.log(longestPalindrome("babad"))
+
+console.log(longestPalindrome("babad")) 
